@@ -21,6 +21,8 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="asserts\Vertex.glsl" />
+    <None Include="asserts\VertexRenderer2D.glsl" />
+    <None Include="asserts\FragmentRenderer2D.glsl" />
   </ItemGroup>
   <ItemGroup>
     <Text Include="asserts\Fragment.glsl" />

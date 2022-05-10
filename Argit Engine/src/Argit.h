@@ -7,6 +7,8 @@
 #include "Core/Log.h"
 #include "Core/Utility.h"
 #include "Renderer/RenderCommands.h"
+#include "Renderer/Camera.h"
+#include "Renderer/Renderer2D.h"
 #include "Events/Event.h"
 #include "Events/ApplicationEvent.h"
 #include "Events/KeyEvent.h"

@@ -15,66 +15,26 @@ public:
 		window->setEventCallback(ARGIT_BIND_EVENT_FN(SandBoxApp::OnEvent));
 		window->Init();
 
-		float bufferData[] = {
-			-50.0f, -50.5f, 0.0f,   1.0f, 1.0f, 0.0f,   0.0f, 0.0f,
-			 50.0f, -50.5f, 0.0f,	1.0f, 1.0f, 0.0f,   1.0f, 0.0f,
-			 50.0f,  50.5f, 0.0f,	1.0f, 1.0f, 0.0f,   1.0f, 1.0f,
-			-50.0f,  50.5f, 0.0f,	1.0f, 1.0f, 0.0f,   0.0f, 1.0f,
-		};
-		vb = VertexBuffer::Create(sizeof(bufferData));
-		vb->AddData(0, bufferData, sizeof(bufferData));
-
-		uint32_t indices[] = { 0,1,2,2,3,0 };
-		ib = IndexBuffer::Create(6);
-		ib->AddData(0, indices, 6);
-
-		LayoutDescription layout = {
-			{LayoutDataType::Float, false, 3},
-			{LayoutDataType::Float, false, 3},
-			{LayoutDataType::Float, false, 2},
-		};
-		vao = VertexArray::Create();
-		vao->AddBuffer(vb, layout);
-
-		std::string vertSrc = Utility::ReadShaderSource("./asserts/Vertex.glsl");
-		std::string fragSrc = Utility::ReadShaderSource("./asserts/Fragment.glsl");
-		shader = Shader::Create();
-		shader->AddShader(ShaderTypes::VertexShader, vertSrc);
-		shader->AddShader(ShaderTypes::FragmentShader, fragSrc);
-		shader->Finalize();
-
-		float xbound = window->Width()/2;
-		float ybound = window->Height()/2;
-		prjection = glm::ortho(-xbound, xbound, -ybound, ybound, -2.0f, 2.0f);
-
-		Utility::ImageData imgdata = Utility::ReadImageData("./asserts/wall.jpg");
-
-		Texture2DDescription textureDescription;
-		textureDescription.data = imgdata.data;
-		textureDescription.height = imgdata.height;
-		textureDescription.width = imgdata.width;
-		if (imgdata.numberOfChannels == 3) {
-			textureDescription.format = TextureFormat::RGB;
-		}
-		else {
-			textureDescription.format = TextureFormat::RGBA;
-		}
-
-		texture = Texture2D::Create(textureDescription);
+		cam = MakeReference<Camera>(projection);
 
 		RenderCommands::ClearColor(glm::vec4(1.0f, 1.0f, 1.0f, 1.0f));
+		Renderer2D::Init();
 	}
 	virtual void OnUpdate(float deltaTime) override{
 		RenderCommands::Clear(ClearType::ColorAndDepth);
 
-		int index = 1;
+		/*int index = 1;
 		std::vector<UniformDescription> uniformData = {
-			{(void*)glm::value_ptr(prjection), "projection", UniformTypes::Mat4},
+			{(void*)glm::value_ptr(cam->getProjection()), "projection", UniformTypes::Mat4},
 			{(void*)&index, "text", UniformTypes::Int},
 		};
 
 		texture->Bind(index);
-		RenderCommands::DrawIndexedPrimitive(DrawPrimitiveType::Triangle, shader, vao, vb, ib, uniformData);
+		RenderCommands::DrawIndexedPrimitive(DrawPrimitiveType::Triangle, shader, vao, vb, ib, uniformData);*/
+
+		Renderer2D::Begin(cam);
+		Renderer2D::DrawQuad({ 0.0f, 0.0f }, {100.0f,100.0f}, { 1.0f, 0.0f, 0.0f });
+		Renderer2D::End();
 
 		window->Update();
 	}
@@ -97,12 +57,9 @@ public:
 	}
 private:
 	Reference<Window> window;
-	Reference<VertexBuffer> vb;
-	Reference<IndexBuffer> ib;
-	Reference<VertexArray> vao;
-	Reference<Shader> shader;
-	Reference<Texture2D> texture;
-	glm::mat4 prjection;
+
+	Reference<Camera> cam;
+	glm::mat4 projection;
 	bool running = true;
 };
 

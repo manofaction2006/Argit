@@ -163,6 +163,8 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="src\Renderer\Renderer2D.h" />
+    <ClInclude Include="src\Renderer\Camera.h" />
     <ClInclude Include="src\Platform\OpenGL\OpenGLTextures.h" />
     <ClInclude Include="src\Core\Utility.h" />
     <ClInclude Include="src\Platform\OpenGL\OpenGLShader.h" />
@@ -199,6 +201,8 @@
     <ClInclude Include="vendor\includes\stb image\stb_image.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="src\Renderer\Renderer2D.cpp" />
+    <ClCompile Include="src\Renderer\Camera.cpp" />
     <ClCompile Include="src\Platform\OpenGL\OpenGLTextures.cpp" />
     <ClCompile Include="src\Core\Utility.cpp" />
     <ClCompile Include="src\Platform\OpenGL\OpenGLShader.cpp" />
