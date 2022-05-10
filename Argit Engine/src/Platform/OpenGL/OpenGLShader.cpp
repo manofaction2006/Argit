@@ -1,6 +1,7 @@
 #include "pch.h"
 #include "OpenGLShader.h"
 #include "glew/glew.h"
+#include "glm/glm/glm.hpp"
 
 namespace Argit {
 	uint32_t getOpenglShaderType(ShaderTypes type) {
@@ -62,13 +63,18 @@ namespace Argit {
 		glUseProgram(m_RendererId);
 		uint32_t uniformLocation = glGetUniformLocation(m_RendererId, uniform.uniformName);
 
+		if (uniformLocation == -1) {
+			std::cout << "uniform " << uniform.uniformName << " not found." << std::endl;
+		}
+
 		switch (uniform.type)
 		{
 		case UniformTypes::Int:
-			glUniform1iv(uniformLocation, 1, (const int*)uniform.data);
+			glUniform1i(uniformLocation, *(const int*)uniform.data);
 			break;
 		case UniformTypes::Int2:
-			glUniform2iv(uniformLocation, 1, (const int*)uniform.data);
+			glm::ivec2 vec = *(glm::ivec2*)uniform.data;
+			glUniform2i(uniformLocation, vec[0], vec[1]);
 			break;
 		case UniformTypes::Int3:
 			glUniform3iv(uniformLocation, 1, (const int*)uniform.data);

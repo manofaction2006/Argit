@@ -16,10 +16,10 @@ public:
 		window->Init();
 
 		float bufferData[] = {
-			-0.5f, -0.5f, 0.0f, 1.0f, 0.0f, 0.0f,
-			 0.5f, -0.5f, 0.0f,	1.0f, 0.0f, 0.0f,
-			 0.5f,  0.5f, 0.0f,	1.0f, 0.0f, 0.0f,
-			-0.5f,  0.5f, 0.0f,	1.0f, 0.0f, 0.0f,
+			-50.0f, -50.5f, 0.0f,   1.0f, 1.0f, 0.0f,   0.0f, 0.0f,
+			 50.0f, -50.5f, 0.0f,	1.0f, 1.0f, 0.0f,   1.0f, 0.0f,
+			 50.0f,  50.5f, 0.0f,	1.0f, 1.0f, 0.0f,   1.0f, 1.0f,
+			-50.0f,  50.5f, 0.0f,	1.0f, 1.0f, 0.0f,   0.0f, 1.0f,
 		};
 		vb = VertexBuffer::Create(sizeof(bufferData));
 		vb->AddData(0, bufferData, sizeof(bufferData));
@@ -30,7 +30,8 @@ public:
 
 		LayoutDescription layout = {
 			{LayoutDataType::Float, false, 3},
-			{LayoutDataType::Float, false, 3}
+			{LayoutDataType::Float, false, 3},
+			{LayoutDataType::Float, false, 2},
 		};
 		vao = VertexArray::Create();
 		vao->AddBuffer(vb, layout);
@@ -42,12 +43,38 @@ public:
 		shader->AddShader(ShaderTypes::FragmentShader, fragSrc);
 		shader->Finalize();
 
-		RenderCommands::ClearColor(glm::vec4(1.0f, 0.0f, 1.0f, 1.0f));
+		float xbound = window->Width()/2;
+		float ybound = window->Height()/2;
+		prjection = glm::ortho(-xbound, xbound, -ybound, ybound, -2.0f, 2.0f);
+
+		Utility::ImageData imgdata = Utility::ReadImageData("./asserts/wall.jpg");
+
+		Texture2DDescription textureDescription;
+		textureDescription.data = imgdata.data;
+		textureDescription.height = imgdata.height;
+		textureDescription.width = imgdata.width;
+		if (imgdata.numberOfChannels == 3) {
+			textureDescription.format = TextureFormat::RGB;
+		}
+		else {
+			textureDescription.format = TextureFormat::RGBA;
+		}
+
+		texture = Texture2D::Create(textureDescription);
+
+		RenderCommands::ClearColor(glm::vec4(1.0f, 1.0f, 1.0f, 1.0f));
 	}
 	virtual void OnUpdate(float deltaTime) override{
 		RenderCommands::Clear(ClearType::ColorAndDepth);
 
-		RenderCommands::DrawIndexedPrimitive(DrawPrimitiveType::Triangle, shader, vao, vb, ib, {});
+		int index = 1;
+		std::vector<UniformDescription> uniformData = {
+			{(void*)glm::value_ptr(prjection), "projection", UniformTypes::Mat4},
+			{(void*)&index, "text", UniformTypes::Int},
+		};
+
+		texture->Bind(index);
+		RenderCommands::DrawIndexedPrimitive(DrawPrimitiveType::Triangle, shader, vao, vb, ib, uniformData);
 
 		window->Update();
 	}
@@ -74,6 +101,8 @@ private:
 	Reference<IndexBuffer> ib;
 	Reference<VertexArray> vao;
 	Reference<Shader> shader;
+	Reference<Texture2D> texture;
+	glm::mat4 prjection;
 	bool running = true;
 };
 
