@@ -51,6 +51,7 @@ namespace Argit {
 	void WindowsWindow::Update()
 	{
 		glfwPollEvents();
+		context->Swap();
 	}
 
 

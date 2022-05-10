@@ -18,6 +18,11 @@ namespace Argit {
 		}
 	}
 
+	void OpenGLContext::Swap()
+	{
+		glfwSwapBuffers(window);
+	}
+
 	OpenGLContext::~OpenGLContext()
 	{
 		
