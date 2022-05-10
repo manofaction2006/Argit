@@ -19,4 +19,10 @@
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
+  <ItemGroup>
+    <None Include="asserts\Vertex.glsl" />
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="asserts\Fragment.glsl" />
+  </ItemGroup>
 </Project>

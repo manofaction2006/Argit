@@ -5,6 +5,7 @@
 #include "Core/Assert.h"
 #include "Core/Base.h"
 #include "Core/Log.h"
+#include "Core/Utility.h"
 #include "Renderer/RenderCommands.h"
 #include "Events/Event.h"
 #include "Events/ApplicationEvent.h"

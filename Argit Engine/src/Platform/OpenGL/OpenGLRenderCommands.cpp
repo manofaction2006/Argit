@@ -10,6 +10,12 @@ namespace Argit {
 		ColorAndDepth = Color|Depth
 	};
 
+	static enum class OpenglDrawPrimitiveType {
+		Triangle = GL_TRIANGLES,
+		TriangleFan = GL_TRIANGLE_FAN,
+		TriangleStrip = GL_TRIANGLE_STRIP
+	};
+
 	static uint32_t getOpenglClearType(ClearType type) {
 		switch (type)
 		{
@@ -27,6 +33,23 @@ namespace Argit {
 		}
 	}
 
+	static OpenglDrawPrimitiveType getOpenglPrimitiveType(DrawPrimitiveType type) {
+		switch (type)
+		{
+		case Argit::DrawPrimitiveType::Triangle:
+			return OpenglDrawPrimitiveType::Triangle;
+			break;
+		case Argit::DrawPrimitiveType::TriangleFan:
+			return OpenglDrawPrimitiveType::TriangleFan;
+			break;
+		case Argit::DrawPrimitiveType::TriangleStrip:
+			return OpenglDrawPrimitiveType::TriangleStrip;
+			break;
+		default:
+			break;
+		}
+	}
+
 	void OpenGLRenderCommands::Clear(ClearType type)
 	{
 		glClear(getOpenglClearType(type));
@@ -35,6 +58,26 @@ namespace Argit {
 	void OpenGLRenderCommands::ClearColor(const glm::vec4& color)
 	{
 		glClearColor(color.r, color.g, color.b, color.a);
+	}
+
+	void OpenGLRenderCommands::DrawIndexedPrimitive(DrawPrimitiveType primitive, const Reference<VertexArray>& vao, const Reference<VertexBuffer>& buffer, const Reference<IndexBuffer>& index)
+	{
+		vao->Bind();
+		index->Bind();
+		glDrawElements((uint32_t)getOpenglPrimitiveType(primitive), index->getCount(), GL_UNSIGNED_INT, nullptr);
+	}
+
+	void OpenGLRenderCommands::DrawIndexedPrimitive(DrawPrimitiveType primitive, const Reference<Shader>& shader, const Reference<VertexArray>& vao, const Reference<VertexBuffer>& buffer, const Reference<IndexBuffer>& index, const std::vector<UniformDescription>& uniformData)
+	{
+		glUseProgram(shader->getRendererId());
+
+		for (auto& uniform : uniformData) {
+			shader->AddUniform(uniform);
+		}
+
+		vao->Bind();
+		index->Bind();
+		glDrawElements((uint32_t)getOpenglPrimitiveType(primitive), index->getCount(), GL_UNSIGNED_INT, nullptr);
 	}
 
 }

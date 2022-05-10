@@ -32,4 +32,32 @@ namespace Argit {
 		}
 	}
 
+	void RenderCommands::DrawIndexedPrimitive(DrawPrimitiveType primitive, const Reference<VertexArray>& vao, const Reference<VertexBuffer>& buffer, const Reference<IndexBuffer>& index)
+	{
+		switch (RendererDetails::getCurrentRendeingApi())
+		{
+		case RenderingApi::OpenGL:
+			OpenGLRenderCommands::DrawIndexedPrimitive(primitive, vao, buffer, index);
+		case RenderingApi::Vulkan:
+			return;
+		default:
+			return;
+			break;
+		}
+	}
+
+	void RenderCommands::DrawIndexedPrimitive(DrawPrimitiveType primitive, const Reference<Shader>& shader, const Reference<VertexArray>& vao, const Reference<VertexBuffer>& buffer, const Reference<IndexBuffer>& index, const std::vector<UniformDescription>& uniformData)
+	{
+		switch (RendererDetails::getCurrentRendeingApi())
+		{
+		case RenderingApi::OpenGL:
+			OpenGLRenderCommands::DrawIndexedPrimitive(primitive, shader, vao, buffer, index, uniformData);
+		case RenderingApi::Vulkan:
+			return;
+		default:
+			return;
+			break;
+		}
+	}
+
 }

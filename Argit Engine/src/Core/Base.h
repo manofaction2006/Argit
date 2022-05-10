@@ -9,6 +9,8 @@
 #define BIT(x) (1 << x)
 
 namespace Argit {
+	using RendererId = uint32_t;
+
 	template <typename T>
 	using Reference = std::shared_ptr<T>;
 

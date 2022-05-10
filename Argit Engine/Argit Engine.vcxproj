@@ -72,23 +72,23 @@
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <LinkIncremental>true</LinkIncremental>
-    <OutDir>$(SolutionDir)bin\$(PlatformArchitecture)-$(Configuration)\$(projectname)</OutDir>
-    <IntDir>$(SolutionDir)bin-int\$(PlatformArchitecture)-$(Configuration)\$(projectname)</IntDir>
+    <OutDir>$(SolutionDir)bin\$(PlatformArchitecture)-$(Configuration)\$(projectname)\</OutDir>
+    <IntDir>$(SolutionDir)bin-int\$(PlatformArchitecture)-$(Configuration)\$(projectname)\</IntDir>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <LinkIncremental>false</LinkIncremental>
-    <OutDir>$(SolutionDir)bin\$(PlatformArchitecture)-$(Configuration)\$(projectname)</OutDir>
-    <IntDir>$(SolutionDir)bin-int\$(PlatformArchitecture)-$(Configuration)\$(projectname)</IntDir>
+    <OutDir>$(SolutionDir)bin\$(PlatformArchitecture)-$(Configuration)\$(projectname)\</OutDir>
+    <IntDir>$(SolutionDir)bin-int\$(PlatformArchitecture)-$(Configuration)\$(projectname)\</IntDir>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <LinkIncremental>true</LinkIncremental>
-    <OutDir>$(SolutionDir)bin\$(PlatformArchitecture)-$(Configuration)\$(projectname)</OutDir>
-    <IntDir>$(SolutionDir)bin-int\$(PlatformArchitecture)-$(Configuration)\$(projectname)</IntDir>
+    <OutDir>$(SolutionDir)bin\$(PlatformArchitecture)-$(Configuration)\$(projectname)\</OutDir>
+    <IntDir>$(SolutionDir)bin-int\$(PlatformArchitecture)-$(Configuration)\$(projectname)\</IntDir>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <LinkIncremental>false</LinkIncremental>
-    <OutDir>$(SolutionDir)bin\$(PlatformArchitecture)-$(Configuration)\$(projectname)</OutDir>
-    <IntDir>$(SolutionDir)bin-int\$(PlatformArchitecture)-$(Configuration)\$(projectname)</IntDir>
+    <OutDir>$(SolutionDir)bin\$(PlatformArchitecture)-$(Configuration)\$(projectname)\</OutDir>
+    <IntDir>$(SolutionDir)bin-int\$(PlatformArchitecture)-$(Configuration)\$(projectname)\</IntDir>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
@@ -163,6 +163,13 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="src\Core\Utility.h" />
+    <ClInclude Include="src\Platform\OpenGL\OpenGLShader.h" />
+    <ClInclude Include="src\Renderer\Shader.h" />
+    <ClInclude Include="src\Platform\OpenGL\OpenGLVertexArray.h" />
+    <ClInclude Include="src\Platform\OpenGL\OpenGLIndexBuffer.h" />
+    <ClInclude Include="src\Renderer\IndexBuffer.h" />
+    <ClInclude Include="src\Platform\OpenGL\OpenGLVertexBuffer.h" />
     <ClInclude Include="src\Core\KeyCodes.h" />
     <ClInclude Include="src\Core\MouseCodes.h" />
     <ClInclude Include="src\Events\ApplicationEvent.h" />
@@ -170,6 +177,7 @@
     <ClInclude Include="src\Events\KeyEvent.h" />
     <ClInclude Include="src\Events\MouseEvent.h" />
     <ClInclude Include="src\Platform\OpenGL\OpenGLRenderCommands.h" />
+    <ClInclude Include="src\Renderer\RenderableObject.h" />
     <ClInclude Include="src\Renderer\RenderCommands.h" />
     <ClInclude Include="src\Platform\OpenGL\OpenGLContext.h" />
     <ClInclude Include="src\Core\Context.h" />
@@ -184,8 +192,17 @@
     <ClInclude Include="src\pch.h" />
     <ClInclude Include="src\Core\Window.h" />
     <ClInclude Include="src\Platform\Windows\WindowsWindow.h" />
+    <ClInclude Include="src\Renderer\VertexBuffer.h" />
+    <ClInclude Include="src\Renderer\VertexArray.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="src\Core\Utility.cpp" />
+    <ClCompile Include="src\Platform\OpenGL\OpenGLShader.cpp" />
+    <ClCompile Include="src\Renderer\Shader.cpp" />
+    <ClCompile Include="src\Platform\OpenGL\OpenGLVertexArray.cpp" />
+    <ClCompile Include="src\Platform\OpenGL\OpenGLIndexBuffer.cpp" />
+    <ClCompile Include="src\Renderer\IndexBuffer.cpp" />
+    <ClCompile Include="src\Platform\OpenGL\OpenGLVertexBuffer.cpp" />
     <ClCompile Include="src\Platform\OpenGL\OpenGLRenderCommands.cpp" />
     <ClCompile Include="src\Renderer\RenderCommands.cpp" />
     <ClCompile Include="src\Platform\OpenGL\OpenGLContext.cpp" />
@@ -206,6 +223,8 @@
     </ClCompile>
     <ClCompile Include="src\Core\Window.cpp" />
     <ClCompile Include="src\Platform\Windows\WindowsWindow.cpp" />
+    <ClCompile Include="src\Renderer\VertexBuffer.cpp" />
+    <ClCompile Include="src\Renderer\VertexArray.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
