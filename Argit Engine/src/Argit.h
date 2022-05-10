@@ -6,3 +6,7 @@
 #include "Core/Base.h"
 #include "Core/Log.h"
 #include "Renderer/RenderCommands.h"
+#include "Events/Event.h"
+#include "Events/ApplicationEvent.h"
+#include "Events/KeyEvent.h"
+#include "Events/MouseEvent.h"

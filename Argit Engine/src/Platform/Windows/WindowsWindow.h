@@ -22,8 +22,8 @@ namespace Argit {
 		~WindowsWindow();
 	private:
 		struct WindowsWindowData {
-			uint32_t width;
-			uint32_t height;
+			uint32_t Width;
+			uint32_t Height;
 			const char* title;
 			bool vsync;
 			EventCallbackFn callback;

@@ -1,5 +1,6 @@
 #pragma once
 #include "Base.h"
+#include "Events/Event.h"
 
 namespace Argit {
 	struct WindowData {
@@ -12,7 +13,7 @@ namespace Argit {
 	class Window
 	{
 	public:
-		using EventCallbackFn = std::function<void()>;
+		using EventCallbackFn = std::function<void(Event&)>;
 
 		static Reference<Window> Create(WindowData data);
 

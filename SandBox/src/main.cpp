@@ -25,16 +25,22 @@ public:
 		std::cout << "destroy\n";
 	}
 	virtual bool isApplicationRunning() override {
-		return true;
+		return running;
 	}
 	virtual const Reference<Window>& getWindow() override {
 		return window;
 	}
-	void OnEvent() {
-		std::cout << "Event" << std::endl;
+	void OnEvent(Event& e) {
+		EventDispatcher dipatcher = EventDispatcher(e);
+		dipatcher.Dispatch<WindowCloseEvent>(ARGIT_BIND_EVENT_FN(SandBoxApp::OnWindowClose));
+	}
+	bool OnWindowClose(WindowCloseEvent& e) {
+		running = false;
+		return true;
 	}
 private:
 	Reference<Window> window;
+	bool running = true;
 };
 
 Application* Argit::getApplication() {
