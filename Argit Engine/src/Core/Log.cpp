@@ -6,8 +6,8 @@
 
 namespace Argit {
 
-	Reference<spdlog::logger> Log::s_CoreLogger;
-	Reference<spdlog::logger> Log::s_ClientLogger;
+	/*Reference<spdlog::logger> Log::s_CoreLogger;
+	Reference<spdlog::logger> Log::s_ClientLogger;*/
 
 	void Log::Init()
 	{

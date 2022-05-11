@@ -198,6 +198,7 @@
     <ClInclude Include="src\Renderer\VertexBuffer.h" />
     <ClInclude Include="src\Renderer\VertexArray.h" />
     <ClInclude Include="src\Renderer\Textures.h" />
+    <ClInclude Include="src\Renderer\TextureAtlas.h" />
     <ClInclude Include="vendor\includes\stb image\stb_image.h" />
   </ItemGroup>
   <ItemGroup>
@@ -234,6 +235,7 @@
     <ClCompile Include="src\Renderer\VertexBuffer.cpp" />
     <ClCompile Include="src\Renderer\VertexArray.cpp" />
     <ClCompile Include="src\Renderer\Textures.cpp" />
+    <ClCompile Include="src\Renderer\TextureAtlas.cpp" />
     <ClCompile Include="vendor\includes\stb image\stb_image.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
