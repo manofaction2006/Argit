@@ -60,6 +60,19 @@ namespace Argit {
 		glClearColor(color.r, color.g, color.b, color.a);
 	}
 
+	void OpenGLRenderCommands::EnableBlending()
+	{
+		glEnable(GL_BLEND);
+		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+	}
+
+	void OpenGLRenderCommands::EnableDepthTesting()
+	{
+		glEnable(GL_DEPTH_TEST);
+		glDepthFunc(GL_LESS);
+	}
+
+
 	void OpenGLRenderCommands::DrawIndexedPrimitive(DrawPrimitiveType primitive, const Reference<VertexArray>& vao, const Reference<VertexBuffer>& buffer, const Reference<IndexBuffer>& index)
 	{
 		vao->Bind();

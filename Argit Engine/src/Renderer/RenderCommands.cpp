@@ -32,6 +32,34 @@ namespace Argit {
 		}
 	}
 
+	void RenderCommands::EnableBlending()
+	{
+		switch (RendererDetails::getCurrentRendeingApi())
+		{
+		case RenderingApi::OpenGL:
+			OpenGLRenderCommands::EnableBlending();
+		case RenderingApi::Vulkan:
+			return;
+		default:
+			return;
+			break;
+		}
+	}
+
+	void RenderCommands::EnableDepthTesting()
+	{
+		switch (RendererDetails::getCurrentRendeingApi())
+		{
+		case RenderingApi::OpenGL:
+			OpenGLRenderCommands::EnableDepthTesting();
+		case RenderingApi::Vulkan:
+			return;
+		default:
+			return;
+			break;
+		}
+	}
+
 	void RenderCommands::DrawIndexedPrimitive(DrawPrimitiveType primitive, const Reference<VertexArray>& vao, const Reference<VertexBuffer>& buffer, const Reference<IndexBuffer>& index)
 	{
 		switch (RendererDetails::getCurrentRendeingApi())

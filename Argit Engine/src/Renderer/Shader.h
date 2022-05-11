@@ -25,8 +25,9 @@ namespace Argit {
 
 	struct UniformDescription {
 		void* data;
-		const char* uniformName;
+		std::string uniformName;
 		UniformTypes type;
+		UniformDescription(void* d, const std::string& un, UniformTypes ut): data(d), uniformName(un), type(ut){}
 	};
 
 	class Shader: public RenderableObject

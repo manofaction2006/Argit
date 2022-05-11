@@ -51,7 +51,7 @@ namespace Argit {
 		int index = 0;
 		for (auto& elem : layout.elements){
 			size_t typeSize = getTypeSize(elem.type) * elem.count;
-			uint32_t normalize = elem.normalize ? GL_TRUE : false;
+			uint32_t normalize = elem.normalize ? GL_TRUE : GL_FALSE;
 
 			glEnableVertexAttribArray(index);
 			glVertexAttribPointer(index, elem.count, getOpenglType(elem.type), normalize, stride, (const void*)offset);

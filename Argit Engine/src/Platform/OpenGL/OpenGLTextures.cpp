@@ -74,14 +74,14 @@ namespace Argit {
 		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR);
 		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 
-		glPixelStorei(GL_UNPACK_ALIGNMENT, 0);
+		//glPixelStorei(GL_UNPACK_ALIGNMENT, 0);
 		glTexImage2D(GL_TEXTURE_2D, 0, format, width, height, 0, format, GL_UNSIGNED_BYTE, description.data);
 		glGenerateMipmap(GL_TEXTURE_2D);
 	}
 
 	void OpenGLTexture2D::Bind(uint16_t textureUnit)
 	{
-		glActiveTexture(getTextureUnit(textureUnit));
+		glActiveTexture(GL_TEXTURE0 + textureUnit);
 		glBindTexture(GL_TEXTURE_2D, m_RendererId);
 	}
 

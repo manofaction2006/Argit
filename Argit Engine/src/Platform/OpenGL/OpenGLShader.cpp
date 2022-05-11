@@ -61,7 +61,7 @@ namespace Argit {
 	void OpenGLShader::AddUniform(UniformDescription uniform)
 	{
 		glUseProgram(m_RendererId);
-		uint32_t uniformLocation = glGetUniformLocation(m_RendererId, uniform.uniformName);
+		uint32_t uniformLocation = glGetUniformLocation(m_RendererId, uniform.uniformName.c_str());
 
 		if (uniformLocation == -1) {
 			std::cout << "uniform " << uniform.uniformName << " not found." << std::endl;
@@ -127,7 +127,7 @@ namespace Argit {
 		}
 
 		for (auto i : deleteVector) {
-			glAttachShader(m_RendererId, i);
+			glDetachShader(m_RendererId, i);
 			glDeleteShader(i);
 		}
 	}

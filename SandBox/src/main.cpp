@@ -15,25 +15,29 @@ public:
 		window->setEventCallback(ARGIT_BIND_EVENT_FN(SandBoxApp::OnEvent));
 		window->Init();
 
+		float xbound = window->Width() / 2;
+		float ybound = window->Height() / 2;
+		projection = glm::ortho(-xbound, xbound, -ybound, ybound, -2.0f, 2.0f);
 		cam = MakeReference<Camera>(projection);
 
-		RenderCommands::ClearColor(glm::vec4(1.0f, 1.0f, 1.0f, 1.0f));
+		Utility::ImageData imgdata = Utility::ReadImageData("./asserts/wall.jpg");
+
+		Texture2DDescription desc;
+		desc.data = imgdata.data;
+		desc.height = imgdata.height;
+		desc.width = imgdata.width;
+		desc.format = imgdata.numberOfChannels == 4 ? TextureFormat::RGBA : TextureFormat::RGB;
+		texture = Texture2D::Create(desc);
+
+		RenderCommands::ClearColor(glm::vec4(0.0f, 0.0f, 0.0f, 1.0f));
+		RenderCommands::EnableBlending();
 		Renderer2D::Init();
 	}
 	virtual void OnUpdate(float deltaTime) override{
 		RenderCommands::Clear(ClearType::ColorAndDepth);
 
-		/*int index = 1;
-		std::vector<UniformDescription> uniformData = {
-			{(void*)glm::value_ptr(cam->getProjection()), "projection", UniformTypes::Mat4},
-			{(void*)&index, "text", UniformTypes::Int},
-		};
-
-		texture->Bind(index);
-		RenderCommands::DrawIndexedPrimitive(DrawPrimitiveType::Triangle, shader, vao, vb, ib, uniformData);*/
-
 		Renderer2D::Begin(cam);
-		Renderer2D::DrawQuad({ 0.0f, 0.0f }, {100.0f,100.0f}, { 1.0f, 0.0f, 0.0f });
+		Renderer2D::DrawQuad({ 0.0f, 0.0f }, { 50.0f, 50.0f }, 0.0f, texture,{ 1.0f, 0.0f, 1.0, });
 		Renderer2D::End();
 
 		window->Update();
@@ -57,6 +61,7 @@ public:
 	}
 private:
 	Reference<Window> window;
+	Reference<Texture2D> texture;
 
 	Reference<Camera> cam;
 	glm::mat4 projection;
