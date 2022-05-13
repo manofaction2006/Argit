@@ -13,9 +13,6 @@ enum class PlayerState
 
 class SandBoxApp : public Application {
 public:
-	SandBoxApp() {
-
-	}
 
 	virtual void OnInit() override{
 		WindowData data = {};
@@ -53,7 +50,7 @@ public:
 		walkTexture = Texture2D::Create(walkTextureDesc);
 
 		float spriteWidth = 72;
-		float spriteHeight = 60;
+		float spriteHeight = 55;
 
 		attackAtlases = {};
 		attackAtlases[0] = MakeReference<TextureAtlas>(attackTexture, spriteWidth, spriteHeight, 0, 0);
@@ -76,6 +73,10 @@ public:
 		RenderCommands::EnableBlending();
 		Renderer2D::Init();
 
+		imgui = MakeReference<ImGuiLayer>();
+		imgui->setWindow(window);
+
+		stack.PushLayerBack(imgui);
 
 		Renderer2D::RegisterTexture(walkTexture);
 		Renderer2D::RegisterTexture(attackTexture);
@@ -83,21 +84,46 @@ public:
 	virtual void OnUpdate(float deltaTime) override{
 		RenderCommands::Clear(ClearType::ColorAndDepth);
 
+		if (state == PlayerState::Attack) {
+			if (animationIndexer % 5 == 0) {
+				attackIndex++;
+			}
+			if (animationIndexer % 3 == 0) {
+				walkIndex++;
+			}
+			if (attackIndex >= 5) {
+				attackIndex = 0;
+				state = PlayerState::Idel;
+			}
+			if (walkIndex >= 5) {
+				walkIndex = 0;
+			}
+		}
+
 		Renderer2D::Begin(cam);
 		if (state == PlayerState::Idel) {
-			Renderer2D::DrawQuad({ 0.0,0.0 }, { 80.0f,80.0f }, 0, walkAtlases[5], { 1.0f,1.0f,1.0f });
+			Renderer2D::DrawQuad({ 0.0,0.0 }, { 80.0f,80.0f }, 0, walkAtlases[4], { 1.0f,1.0f,1.0f });
 		}
 		else if (state == PlayerState::Attack) {
-			Renderer2D::DrawQuad({ 0.0,0.0 }, { 80.0f,80.0f }, 0, attackAtlases[4], { 1.0f,1.0f,1.0f });
+			Renderer2D::DrawQuad({ 0.0,0.0 }, { 80.0f,80.0f }, 0, attackAtlases[attackIndex], { 1.0f,1.0f,1.0f });
 		}
 		else if (state == PlayerState::Walking) {
-			Renderer2D::DrawQuad({ 0.0,0.0 }, { 80.0f,80.0f }, 0, walkAtlases[0], { 1.0f,1.0f,1.0f });
+			Renderer2D::DrawQuad({ 0.0,0.0 }, { 80.0f,80.0f }, 0, walkAtlases[walkIndex], { 1.0f,1.0f,1.0f });
 		}
 		Renderer2D::End();
+
+		imgui->Begin();
+		ImGui::Begin("DebugInfo");
+		ImGui::Text("hello");
+		ImGui::End();
+		imgui->End();
+
+		stack.UpdateAllLayers(deltaTime);
+
+		animationIndexer += 0.1 * deltaTime;
 		window->Update();
 	}
 	virtual void OnDestroy() override{
-		std::cout << "destroy\n";
 	}
 	virtual bool isApplicationRunning() override {
 		return running;
@@ -110,11 +136,13 @@ public:
 		dispatcher.Dispatch<WindowCloseEvent>(ARGIT_BIND_EVENT_FN(SandBoxApp::OnWindowClose));
 		dispatcher.Dispatch<KeyPressedEvent>(ARGIT_BIND_EVENT_FN(SandBoxApp::OnKeyDown));
 		dispatcher.Dispatch<KeyReleasedEvent>(ARGIT_BIND_EVENT_FN(SandBoxApp::OnKeyRelease));
+
+		stack.PassEventToAllLayers(e);
 	}
 	bool OnKeyRelease(KeyReleasedEvent& e) {
-		if (e.GetKeyCode() == Key::E) {
-			state = PlayerState::Idel;
-		}
+		//if (e.GetKeyCode() == Key::E) {
+		//	state = PlayerState::Idel;
+		//}
 
 		if (e.GetKeyCode() == Key::A) {
 			state = PlayerState::Idel;
@@ -178,6 +206,9 @@ private:
 	float translateY = 0;
 
 	int animationIndexer = 0;
+
+	Reference<ImGuiLayer> imgui;
+	LayerStack stack;
 
 	Reference<Camera> cam;
 	glm::mat4 projection;

@@ -10,6 +10,7 @@ namespace Argit {
 		static Reference<Context> Create(void* window);
 		virtual void Init() = 0;
 		virtual void Swap() = 0;
+		virtual void* getNativeContext() = 0;
 		virtual ~Context() = default;
 	protected:
 		Context() = default;

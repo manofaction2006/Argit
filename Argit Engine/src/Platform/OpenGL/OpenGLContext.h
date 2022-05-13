@@ -9,6 +9,7 @@ namespace Argit {
 		OpenGLContext(void* window);
 		virtual void Init() override;
 		virtual void Swap() override;
+		virtual void* getNativeContext() override;
 		~OpenGLContext();
 	private:
 		GLFWwindow* window;

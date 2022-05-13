@@ -1,0 +1,7 @@
+[submodule "Argit Engine\\vendor\\includes\\imgui"]
+	path = Argit Engine\\vendor\\includes\\imgui
+	url = https://github.com/ocornut/imgui.git
+[submodule "Argit Engine/vendor/includes/imgui"]
+	path = Argit Engine/vendor/includes/imgui
+	url = https://github.com/ocornut/imgui.git
+	branch = docking

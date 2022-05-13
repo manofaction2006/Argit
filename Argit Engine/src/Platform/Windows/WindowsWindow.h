@@ -17,6 +17,7 @@ namespace Argit {
 		virtual void Init() override;
 		virtual void Update() override;
 
+
 		virtual void setEventCallback(const EventCallbackFn& callback) override { data.callback = callback; };
 		virtual void* getNativeWindow() override;
 		~WindowsWindow();

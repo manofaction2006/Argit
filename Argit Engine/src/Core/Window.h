@@ -1,6 +1,7 @@
 #pragma once
 #include "Base.h"
 #include "Events/Event.h"
+#include "Context.h"
 
 namespace Argit {
 	struct WindowData {
@@ -23,6 +24,7 @@ namespace Argit {
 		virtual bool Vsync() = 0;
 		virtual void Init() = 0;
 		virtual void Update() = 0;
+
 
 		virtual void setEventCallback(const EventCallbackFn& callback) = 0;
 		virtual void* getNativeWindow() = 0;

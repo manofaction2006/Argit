@@ -23,6 +23,11 @@ namespace Argit {
 		glfwSwapBuffers(window);
 	}
 
+	void* OpenGLContext::getNativeContext()
+	{
+		return glfwGetCurrentContext();
+	}
+
 	OpenGLContext::~OpenGLContext()
 	{
 		
