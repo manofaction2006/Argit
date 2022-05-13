@@ -38,6 +38,7 @@ namespace Argit {
 			imgData.height = height;
 			imgData.numberOfChannels = nrChannels;
 			imgData.data = data;
+			imgData.FileName = filename;
 			return imgData;
 		}
 	}

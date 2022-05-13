@@ -47,6 +47,15 @@ namespace Argit {
 		glBindVertexArray(m_RendererId);
 		buffer->Bind();
 
+		//glEnableVertexAttribArray(0);
+		//glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, stride, (const void*)0);
+		//glEnableVertexAttribArray(1);
+		//glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, stride, (const void*)12);
+		//glEnableVertexAttribArray(2);
+		//glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, stride, (const void*)24);
+		//glEnableVertexAttribArray(3);
+		//glVertexAttribPointer(3, 1, GL_FLOAT, GL_FALSE, stride, (const void*)32);
+
 		int offset = 0;
 		int index = 0;
 		for (auto& elem : layout.elements){

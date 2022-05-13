@@ -21,12 +21,6 @@ namespace Argit {
 		float textureIndex;
 	};
 
-	char* getTextureUniformName(int i) {
-		char buffer[100];
-		sprintf_s(buffer, "textures[%d]", i);
-		return buffer;
-	}
-
 	struct Color {
 		unsigned char r;
 		unsigned char g;
@@ -49,7 +43,7 @@ namespace Argit {
 
 		std::array<Reference<Texture2D>, 16> textures;
 		Reference<Texture2D> BlankTexture;
-		uint32_t textureIndex = 1;
+		uint32_t textureIndex = 0;
 
 		glm::vec4 quadPositions[4];
 		glm::vec2 textureCoords[4];
@@ -113,7 +107,7 @@ namespace Argit {
 		Color* whiteData = new Color[width*height];
 
 		for (int i = 0; i < width * height; i++) {
-			whiteData[i].r = 255;
+			whiteData[i].r = 0;
 			whiteData[i].g = 255;
 			whiteData[i].b = 255;
 			whiteData[i].a = 255;
@@ -124,9 +118,11 @@ namespace Argit {
 		description.width = width;
 		description.height = height;
 		description.format = TextureFormat::RGBA;
+		description.textureName = "WhiteTexture";
 
 		rendererData.BlankTexture = Texture2D::Create(description);
-		rendererData.textures[0] = rendererData.BlankTexture;
+		rendererData.textures[rendererData.textureIndex] = rendererData.BlankTexture;
+		rendererData.textureIndex++;
 
 		delete[] whiteData;
 		delete[] indices;
@@ -141,6 +137,18 @@ namespace Argit {
 	void Renderer2D::End()
 	{
 		flush(camera);
+	}
+
+	void Renderer2D::RegisterTexture(const Reference<Texture2D>& texture)
+	{
+		auto i = std::find(rendererData.textures.begin() + 1, rendererData.textures.end(), texture);
+		if (i != rendererData.textures.end()) {
+			return;
+		}
+		else {
+			rendererData.textures[rendererData.textureIndex] = texture;
+			rendererData.textureIndex++;
+		}
 	}
 
 	void Renderer2D::DrawQuad(const glm::vec2& position, const glm::vec3& color)
@@ -167,18 +175,46 @@ namespace Argit {
 	{
 		rendererData.quadBuffer->AddData(0, rendererData.vertices.data(), rendererData.vertices.size() * sizeof(SquareVertex));
 
+		int index0 = 0;
+		int index1 = 1;
+		int index2 = 2;
+		int index3 = 3;
+		int index4 = 4;
+		int index5 = 5;
+		int index6 = 6;
+		int index7 = 7;
+		int index8 = 8;
+		int index9 = 9;
+		int index10 = 10;
+		int index11 = 11;
+		int index12 = 12;
+		int index13 = 13;
+		int index14 = 14;
+		int index15 = 15;
 		std::vector<UniformDescription> desc = {
-			{(void*)glm::value_ptr(camera->getProjection()), "projection", UniformTypes::Mat4}
+			{(void*)glm::value_ptr(camera->getProjection()), "projection", UniformTypes::Mat4},
+			{(void*)&index0, "textures0", UniformTypes::Int},
+			{(void*)&index1, "textures1", UniformTypes::Int},
+			{(void*)&index2, "textures2", UniformTypes::Int},
+			{(void*)&index3, "textures3", UniformTypes::Int},
+			{(void*)&index4, "textures4", UniformTypes::Int},
+			{(void*)&index5, "textures5", UniformTypes::Int},
+			{(void*)&index6, "textures6", UniformTypes::Int},
+			{(void*)&index7, "textures7", UniformTypes::Int},
+			{(void*)&index8, "textures8", UniformTypes::Int},
+			{(void*)&index9, "textures9", UniformTypes::Int},
+			{(void*)&index10, "textures10", UniformTypes::Int},
+			{(void*)&index11, "textures11", UniformTypes::Int},
+			{(void*)&index12, "textures12", UniformTypes::Int},
+			{(void*)&index13, "textures13", UniformTypes::Int},
+			{(void*)&index14, "textures14", UniformTypes::Int},
+			{(void*)&index15, "textures15", UniformTypes::Int},
 		};
 
-		std::string str = "";
 		for (int i = 0; i < rendererData.textureIndex; i++) {
-			int index = i;
-			str = getTextureUniformName(i);
-			desc.emplace_back((void*)&index, str, UniformTypes::Int);
-			rendererData.textures[i]->Bind(i);
+			auto texture = rendererData.textures[i];
+			texture->Bind(i);
 		}
-		
 
 		RenderCommands::DrawIndexedPrimitive(DrawPrimitiveType::Triangle, rendererData.quadShader, rendererData.quadVertexArray, rendererData.quadBuffer, rendererData.quadIB, desc);
 		rendererData.vertices.clear();
@@ -211,6 +247,8 @@ namespace Argit {
 
 		int textureId = 0;
 		auto texture = atlas->getTexture();
+
+
 		auto i = std::find(rendererData.textures.begin() + 1, rendererData.textures.end(), texture);
 
 		if (texture == rendererData.BlankTexture) {

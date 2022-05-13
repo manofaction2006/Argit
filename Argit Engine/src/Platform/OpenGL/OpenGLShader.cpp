@@ -67,6 +67,7 @@ namespace Argit {
 			std::cout << "uniform " << uniform.uniformName << " not found." << std::endl;
 		}
 
+		int uniformData = *(const int*)uniform.data;
 		switch (uniform.type)
 		{
 		case UniformTypes::Int:

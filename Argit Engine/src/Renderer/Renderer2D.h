@@ -13,6 +13,8 @@ namespace Argit {
 		static void Begin(const Reference<Camera>& camera);
 		static void End();
 
+		static void RegisterTexture(const Reference<Texture2D>& texture);
+
 		static void DrawQuad(const glm::vec2& position, const glm::vec3& color);
 		static void DrawQuad(const glm::vec2& position, const glm::vec2& size, const glm::vec3& color);
 		static void DrawQuad(const glm::vec2& position, const glm::vec2& size, float angle, const glm::vec3& color);

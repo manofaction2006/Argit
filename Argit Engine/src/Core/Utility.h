@@ -6,6 +6,7 @@ namespace Argit {
 			unsigned char* data;
 			uint32_t width;
 			uint32_t height;
+			std::string FileName;
 			uint32_t numberOfChannels;
 		};
 		std::string ReadShaderSource(const char* filename);
