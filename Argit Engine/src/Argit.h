@@ -14,6 +14,7 @@
 #include "Renderer/Camera.h"
 #include "Renderer/Textures.h"
 #include "Renderer/Renderer2D.h"
+#include "Renderer/Font.h"
 
 // ImGui
 #include "imgui/imgui.h"

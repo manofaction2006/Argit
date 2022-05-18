@@ -96,7 +96,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>ARGIT_ENABLE_ASSERTS;GLEW_STATIC;WIN32;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>$(SolutionDir)Argit Engine\src;$(SolutionDir)Argit Engine\vendor\includes;$(SolutionDir)Argit Engine\vendor\includes\spdlog\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)Argit Engine\vendor\includes\FreeTypeLib\include;$(SolutionDir)Argit Engine\src;$(SolutionDir)Argit Engine\vendor\includes;$(SolutionDir)Argit Engine\vendor\includes\spdlog\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PrecompiledHeader>Use</PrecompiledHeader>
       <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
       <LanguageStandard>stdcpp20</LanguageStandard>
@@ -114,7 +114,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>ARGIT_ENABLE_ASSERTS;GLEW_STATIC;WIN32;NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>$(SolutionDir)Argit Engine\src;$(SolutionDir)Argit Engine\vendor\includes;$(SolutionDir)Argit Engine\vendor\includes\spdlog\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)Argit Engine\vendor\includes\FreeTypeLib\include;$(SolutionDir)Argit Engine\src;$(SolutionDir)Argit Engine\vendor\includes;$(SolutionDir)Argit Engine\vendor\includes\spdlog\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PrecompiledHeader>Use</PrecompiledHeader>
       <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
       <LanguageStandard>stdcpp20</LanguageStandard>
@@ -132,7 +132,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>ARGIT_ENABLE_ASSERTS;GLEW_STATIC;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>$(SolutionDir)Argit Engine\src;$(SolutionDir)Argit Engine\vendor\includes;$(SolutionDir)Argit Engine\vendor\includes\spdlog\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)Argit Engine\vendor\includes\FreeTypeLib\include;$(SolutionDir)Argit Engine\src;$(SolutionDir)Argit Engine\vendor\includes;$(SolutionDir)Argit Engine\vendor\includes\spdlog\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PrecompiledHeader>Use</PrecompiledHeader>
       <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
       <LanguageStandard>stdcpp20</LanguageStandard>
@@ -150,7 +150,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>ARGIT_ENABLE_ASSERTS;GLEW_STATIC;NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>$(SolutionDir)Argit Engine\src;$(SolutionDir)Argit Engine\vendor\includes;$(SolutionDir)Argit Engine\vendor\includes\spdlog\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)Argit Engine\vendor\includes\FreeTypeLib\include;$(SolutionDir)Argit Engine\src;$(SolutionDir)Argit Engine\vendor\includes;$(SolutionDir)Argit Engine\vendor\includes\spdlog\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PrecompiledHeader>Use</PrecompiledHeader>
       <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
       <LanguageStandard>stdcpp20</LanguageStandard>
@@ -163,6 +163,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="src\Renderer\Font.h" />
     <ClInclude Include="src\Imgui Layers\ImGuiLayer.h" />
     <ClInclude Include="src\Core\Layer.h" />
     <ClInclude Include="src\Core\LayerStack.h" />
@@ -211,8 +212,10 @@
     <ClInclude Include="vendor\includes\imgui\imstb_textedit.h" />
     <ClInclude Include="vendor\includes\imgui\imstb_truetype.h" />
     <ClInclude Include="vendor\includes\stb image\stb_image.h" />
+    <ClInclude Include="vendor\includes\stb image\stb_image_write.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="src\Renderer\Font.cpp" />
     <ClCompile Include="src\Imgui Layers\ImGuiLayer.cpp" />
     <ClCompile Include="src\Core\LayerStack.cpp" />
     <ClCompile Include="src\Renderer\Renderer2D.cpp" />
@@ -256,6 +259,7 @@
     <ClCompile Include="vendor\includes\imgui\imgui_tables.cpp" />
     <ClCompile Include="vendor\includes\imgui\imgui_widgets.cpp" />
     <ClCompile Include="vendor\includes\stb image\stb_image.cpp" />
+    <ClCompile Include="vendor\includes\stb image\stb_image_write.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

@@ -4,6 +4,7 @@
 #include <array>
 
 namespace Argit {
+	class FontAtlas;
 	class TextureAtlas final
 	{
 	public:
@@ -12,6 +13,7 @@ namespace Argit {
 		const Reference<Texture2D>& getTexture() { return texture; };
 		float getSpriteWidth() { return spriteWidth; }
 		float getSpriteHeight() { return sptiteHeight; }
+		friend class FontAtlas;
 		std::array<glm::vec2, 4> getTextureCoordinates();
 	private:
 		Reference<Texture2D> texture;

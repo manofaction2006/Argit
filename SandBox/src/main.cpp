@@ -29,46 +29,6 @@ public:
 		projection = glm::ortho(-xbound, xbound, -ybound, ybound, -2.0f, 2.0f);
 		cam = MakeReference<Camera>(projection);
 
-		Utility::ImageData attackTextureData = Utility::ReadImageData("./asserts/Attack.png");
-
-		Texture2DDescription attackDesc;
-		attackDesc.data = attackTextureData.data;
-		attackDesc.height = attackTextureData.height;
-		attackDesc.width = attackTextureData.width;
-		attackDesc.format = attackTextureData.numberOfChannels == 4 ? TextureFormat::RGBA : TextureFormat::RGB;
-		attackDesc.textureName = attackTextureData.FileName;
-		attackTexture = Texture2D::Create(attackDesc);
-
-		Utility::ImageData walkTextureData = Utility::ReadImageData("./asserts/walk2.png");
-
-		Texture2DDescription walkTextureDesc;
-		walkTextureDesc.data = walkTextureData.data;
-		walkTextureDesc.height = walkTextureData.height;
-		walkTextureDesc.width = walkTextureData.width;
-		walkTextureDesc.format = walkTextureData.numberOfChannels == 4 ? TextureFormat::RGBA : TextureFormat::RGB;
-		walkTextureDesc.textureName = walkTextureData.FileName;
-		walkTexture = Texture2D::Create(walkTextureDesc);
-
-		float spriteWidth = 72;
-		float spriteHeight = 55;
-
-		attackAtlases = {};
-		attackAtlases[0] = MakeReference<TextureAtlas>(attackTexture, spriteWidth, spriteHeight, 0, 0);
-		attackAtlases[1] = MakeReference<TextureAtlas>(attackTexture, spriteWidth, spriteHeight, 1, 0);
-		attackAtlases[2] = MakeReference<TextureAtlas>(attackTexture, spriteWidth, spriteHeight, 2, 0);
-		attackAtlases[3] = MakeReference<TextureAtlas>(attackTexture, spriteWidth, spriteHeight, 3, 0);
-		attackAtlases[4] = MakeReference<TextureAtlas>(attackTexture, spriteWidth, spriteHeight, 4, 0);
-		attackAtlases[5] = MakeReference<TextureAtlas>(attackTexture, spriteWidth, spriteHeight, 5, 0);
-
-		walkAtlases = {};
-		walkAtlases[0] = MakeReference<TextureAtlas>(walkTexture, spriteWidth, spriteHeight, 0, 0);
-		walkAtlases[1] = MakeReference<TextureAtlas>(walkTexture, spriteWidth, spriteHeight, 1, 0);
-		walkAtlases[2] = MakeReference<TextureAtlas>(walkTexture, spriteWidth, spriteHeight, 2, 0);
-		walkAtlases[3] = MakeReference<TextureAtlas>(walkTexture, spriteWidth, spriteHeight, 3, 0);
-		walkAtlases[4] = MakeReference<TextureAtlas>(walkTexture, spriteWidth, spriteHeight, 4, 0);
-		walkAtlases[5] = MakeReference<TextureAtlas>(walkTexture, spriteWidth, spriteHeight, 5, 0);
-
-
 		RenderCommands::ClearColor(glm::vec4(0.0f, 0.0f, 0.0f, 1.0f));
 		RenderCommands::EnableBlending();
 		Renderer2D::Init();
@@ -78,49 +38,21 @@ public:
 
 		stack.PushLayerBack(imgui);
 
-		Renderer2D::RegisterTexture(walkTexture);
-		Renderer2D::RegisterTexture(attackTexture);
+		font = MakeReference<Font>("./asserts/OpenSan.ttf", 20);
 	}
 	virtual void OnUpdate(float deltaTime) override{
 		RenderCommands::Clear(ClearType::ColorAndDepth);
 
-		if (state == PlayerState::Attack) {
-			if (animationIndexer % 5 == 0) {
-				attackIndex++;
-			}
-			if (animationIndexer % 3 == 0) {
-				walkIndex++;
-			}
-			if (attackIndex >= 5) {
-				attackIndex = 0;
-				state = PlayerState::Idel;
-			}
-			if (walkIndex >= 5) {
-				walkIndex = 0;
-			}
-		}
-
 		Renderer2D::Begin(cam);
-		if (state == PlayerState::Idel) {
-			Renderer2D::DrawQuad({ 0.0,0.0 }, { 80.0f,80.0f }, 0, walkAtlases[4], { 1.0f,1.0f,1.0f });
-		}
-		else if (state == PlayerState::Attack) {
-			Renderer2D::DrawQuad({ 0.0,0.0 }, { 80.0f,80.0f }, 0, attackAtlases[attackIndex], { 1.0f,1.0f,1.0f });
-		}
-		else if (state == PlayerState::Walking) {
-			Renderer2D::DrawQuad({ 0.0,0.0 }, { 80.0f,80.0f }, 0, walkAtlases[walkIndex], { 1.0f,1.0f,1.0f });
-		}
+		Renderer2D::DrawString("HEllO.))00", { 0.0,0.0 }, font, glm::vec3(1.0f, 0.0f, 1.0f), 10);
 		Renderer2D::End();
 
 		imgui->Begin();
 		ImGui::Begin("DebugInfo");
-		ImGui::Text("hello");
 		ImGui::End();
 		imgui->End();
 
 		stack.UpdateAllLayers(deltaTime);
-
-		animationIndexer += 0.1 * deltaTime;
 		window->Update();
 	}
 	virtual void OnDestroy() override{
@@ -140,49 +72,11 @@ public:
 		stack.PassEventToAllLayers(e);
 	}
 	bool OnKeyRelease(KeyReleasedEvent& e) {
-		//if (e.GetKeyCode() == Key::E) {
-		//	state = PlayerState::Idel;
-		//}
 
-		if (e.GetKeyCode() == Key::A) {
-			state = PlayerState::Idel;
-			//translateX -= 10;
-		}
-		if (e.GetKeyCode() == Key::D) {
-			state = PlayerState::Idel;
-			//translateX += 10;
-		}
-		if (e.GetKeyCode() == Key::W) {
-			state = PlayerState::Idel;
-			//translateY += 10;
-		}
-		if (e.GetKeyCode() == Key::S) {
-			state = PlayerState::Idel;
-			//translateY -= 10;
-		}
 		return true;
 	}
 	bool OnKeyDown(KeyPressedEvent& e) {
-		if (e.GetKeyCode() == Key::E) {
-			state = PlayerState::Attack;
-		}
 
-		else if (e.GetKeyCode() == Key::A) {
-			state = PlayerState::Walking;
-			translateX -= 10;
-		}
-		else if (e.GetKeyCode() == Key::D) {
-			state = PlayerState::Walking;
-			translateX += 10;
-		}
-		else if (e.GetKeyCode() == Key::W) {
-			state = PlayerState::Walking;
-			translateY += 10;
-		}
-		else if (e.GetKeyCode() == Key::S) {
-			state = PlayerState::Walking;
-			translateY -= 10;
-		}
 		return true;
 	}
 	bool OnWindowClose(WindowCloseEvent& e) {
@@ -192,23 +86,11 @@ public:
 	}
 private:
 	Reference<Window> window;
-	Reference<Texture2D> attackTexture;
-	Reference<Texture2D> walkTexture;
-	std::array<Reference<TextureAtlas>, 6> attackAtlases;
-	std::array<Reference<TextureAtlas>, 6> walkAtlases;
-
-	int attackIndex = 0;
-	int walkIndex = 0;
-
-	PlayerState state = PlayerState::Idel;
-
-	float translateX = 0;
-	float translateY = 0;
-
-	int animationIndexer = 0;
 
 	Reference<ImGuiLayer> imgui;
 	LayerStack stack;
+
+	Reference<Font> font;
 
 	Reference<Camera> cam;
 	glm::mat4 projection;

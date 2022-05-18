@@ -107,7 +107,7 @@ namespace Argit {
 		Color* whiteData = new Color[width*height];
 
 		for (int i = 0; i < width * height; i++) {
-			whiteData[i].r = 0;
+			whiteData[i].r = 255;
 			whiteData[i].g = 255;
 			whiteData[i].b = 255;
 			whiteData[i].a = 255;
@@ -280,6 +280,85 @@ namespace Argit {
 		rendererData.vertices.push_back(vertices[3]);
 	}
 
+	void Renderer2D::DrawQuad(const glm::vec2& position, const glm::vec2& size, float angle, const Reference<FontAtlas>& atlas, const glm::vec3& color) {
+		glm::mat4 matrix = glm::mat4(1.0f);
+		matrix *= glm::translate(glm::mat4(1.0f), glm::vec3(position, 0.0f));
+		matrix *= glm::scale(glm::mat4(1.0f), glm::vec3(size, 1.0f));
+		matrix *= glm::rotate(glm::mat4(1.0f), glm::radians(angle), glm::vec3(0.0f, 0.0f, 1.0f));
+
+		SquareVertex vertices[4];
+
+		vertices[0].position = matrix * rendererData.quadPositions[0];
+		vertices[1].position = matrix * rendererData.quadPositions[1];
+		vertices[2].position = matrix * rendererData.quadPositions[2];
+		vertices[3].position = matrix * rendererData.quadPositions[3];
+
+		vertices[0].color = color;
+		vertices[1].color = color;
+		vertices[2].color = color;
+		vertices[3].color = color;
+
+		auto coords = atlas->getCharacterCoords();
+		vertices[0].textCoords = coords[0];
+		vertices[1].textCoords = coords[1];
+		vertices[2].textCoords = coords[2];
+		vertices[3].textCoords = coords[3];
+
+		int textureId = 0;
+		auto texture = atlas->getTexture();
+
+
+		auto i = std::find(rendererData.textures.begin() + 1, rendererData.textures.end(), texture);
+
+		if (texture == rendererData.BlankTexture) {
+			textureId = 0;
+		}
+		else if (i != rendererData.textures.end()) {
+			textureId = i - rendererData.textures.begin();
+		}
+		else {
+			textureId = rendererData.textureIndex;
+			rendererData.textures[textureId] = texture;
+			rendererData.textureIndex++;
+		}
+
+		vertices[0].textureIndex = textureId;
+		vertices[1].textureIndex = textureId;
+		vertices[2].textureIndex = textureId;
+		vertices[3].textureIndex = textureId;
+
+
+
+		if (rendererData.vertices.size() >= rendererData.MaxVertices) {
+			flush(camera);
+		}
+
+		rendererData.vertices.push_back(vertices[0]);
+		rendererData.vertices.push_back(vertices[1]);
+		rendererData.vertices.push_back(vertices[2]);
+		rendererData.vertices.push_back(vertices[3]);
+	}
+
+	void Renderer2D::DrawString(const std::string& str, const glm::vec2& position, const Reference<Font>& font, const glm::vec3& color, float letterSpacing)
+	{
+		float offset = 0;
+		for (char s : str) {
+			DrawQuad(glm::vec2{ position.x + offset, position.y }, glm::vec2{ font->getCharacter(s)->getCharWidth(), font->getCharacter(s)->getCharHeight()}, 0.0f, font->getCharacter(s), color);
+
+			offset += font->getCharacter(s)->getCharWidth()/2 +  letterSpacing;
+			//offset += font->getCharacter(s)->getCharWidth() + letterSpacing;
+		}
+	}
+
+	float Renderer2D::MeasureString(const std::string& string, const Reference<Font>& font, float letterSpacing)
+	{
+		float width = 0;
+		for (char s : string) {
+			width += font->getCharacter(s)->getCharWidth() + letterSpacing;
+		}
+		return width;
+	}
+
 	void Renderer2D::Draw(const glm::vec2& position, const glm::vec2& size, float angle, const glm::vec3& color, const Reference<Texture2D>& texture)
 	{
 		glm::mat4 matrix = glm::mat4(1.0f);
@@ -324,8 +403,6 @@ namespace Argit {
 		vertices[2].textureIndex = textureId;
 		vertices[3].textureIndex = textureId;
 
-
-
 		if (rendererData.vertices.size() >= rendererData.MaxVertices) {
 			flush(camera);
 		}
@@ -335,5 +412,4 @@ namespace Argit {
 		rendererData.vertices.push_back(vertices[2]);
 		rendererData.vertices.push_back(vertices[3]);
 	}
-
 }

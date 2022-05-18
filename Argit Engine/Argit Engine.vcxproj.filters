@@ -159,6 +159,12 @@
     <ClInclude Include="vendor\includes\imgui\backends\imgui_impl_opengl3_loader.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="src\Renderer\Font.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="vendor\includes\stb image\stb_image_write.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Core\Application.cpp">
@@ -261,6 +267,12 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="vendor\includes\imgui\backends\imgui_impl_opengl3.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Renderer\Font.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="vendor\includes\stb image\stb_image_write.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
