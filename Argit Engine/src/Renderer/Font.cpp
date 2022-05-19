@@ -101,14 +101,19 @@ namespace Argit {
 		desc.textureName = filename;
 		texture = Texture2D::Create(desc);
 
-
 		for (int i = GLYPHS_START; i < NUM_GLYPHS; i++) {
 			float width = info[i].x1 - info[i].x0;
 			float height = info[i].y1 - info[i].y0;
 
+			char c = i;
+			if (height < fontSize) {
+				height += fontSize - info[i].y1;
+			}
+
 			Reference<FontAtlas> atlas = MakeReference<FontAtlas>(texture, info[i].x0, info[i].y0, width, height);
 			characters.insert(std::pair(info[i].ch, atlas));
 		}
+
 		free(png_data);
 		free(pixels);
 	}

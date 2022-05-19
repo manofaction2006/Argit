@@ -343,7 +343,11 @@ namespace Argit {
 	{
 		float offset = 0;
 		for (char s : str) {
-			DrawQuad(glm::vec2{ position.x + offset, position.y }, glm::vec2{ font->getCharacter(s)->getCharWidth(), font->getCharacter(s)->getCharHeight()}, 0.0f, font->getCharacter(s), color);
+			float angle = 0;
+			if (s == '.') {
+				angle = 180;
+			}
+			DrawQuad(glm::vec2{ position.x + offset, position.y }, glm::vec2{ font->getCharacter(s)->getCharWidth(), font->getCharacter(s)->getCharHeight()}, angle, font->getCharacter(s), color);
 
 			offset += font->getCharacter(s)->getCharWidth()/2 +  letterSpacing;
 			//offset += font->getCharacter(s)->getCharWidth() + letterSpacing;
